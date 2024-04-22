@@ -317,7 +317,7 @@ More specifically, these are per-player commands, or dynamic commands.  They all
 		SendClientMessage(playerid, COLOUR_GREETING, reply);
 		@return 1;
 	}
-	Command_AddCallback("r", tagetid, using inline SendReply);
+	Command_AddCallback("r", targetid, using inline SendReply);
 	
 	return 1;
 }
@@ -329,7 +329,7 @@ One problem with this version is that it will slowly run out of memory, because 
 
 ```pawn
 	// Just in case, remove any old versions of `/r`:
-	Command_RemoveCallback("r", tagetid);
+	Command_RemoveCallback("r", targetid);
 ```
 
 Notes:
