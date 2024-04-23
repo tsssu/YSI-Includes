@@ -236,3 +236,13 @@ new Timer:YSI_g_sKillYourself;
 {
 }
 
+@timer(100) TimeOverride()
+{
+}
+
+@test(.group = "y_timers") TimeOverride()
+{
+	new Timer:t = defer TimeOverride[50]();
+	#pragma unused t
+}
+
