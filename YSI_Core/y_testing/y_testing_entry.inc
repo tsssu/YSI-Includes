@@ -136,7 +136,7 @@ stock _y@T(GLOBAL_TAG_TYPES:b, tag = tagof (b))
 	return (tag == tagof (Float:)) ? ret1 : ret2;
 }
 
-stock bool:_@yT(a, GLOBAL_TAG_TYPES:b, op, tag = tagof (b))
+stock bool:_yT@(a, GLOBAL_TAG_TYPES:b, op, tag = tagof (b))
 {
 	if (tag == tagof (Float:))
 	{
@@ -185,12 +185,12 @@ stock bool:_@yT(a, GLOBAL_TAG_TYPES:b, op, tag = tagof (b))
 // Just don't do side-effects in assertations!
 // `_EQ` and `_NE` now convert to float and check the values are close-enough.
 // For ints the subtraction will always be whole, so fail or pass correctly.
-#define ASSERT_EQ(%1,%0) Testing_Test(_@yT(J@,(%0),0),_y@T((%0)),STRINGISE__(%1 == %0),(J@=_:(((%0)^(%0))|(%1))))
-#define ASSERT_NE(%1,%0) Testing_Test(_@yT(J@,(%0),1),_y@T((%0)),STRINGISE__(%1 != %0),(J@=_:(((%0)^(%0))|(%1))))
-#define ASSERT_LE(%1,%0) Testing_Test(_@yT(J@,(%0),2),_y@T((%0)),STRINGISE__(%1 <= %0),(J@=_:(((%0)^(%0))|(%1))))
-#define ASSERT_LT(%1,%0) Testing_Test(_@yT(J@,(%0),3),_y@T((%0)),STRINGISE__(%1 <  %0),(J@=_:(((%0)^(%0))|(%1))))
-#define ASSERT_GE(%1,%0) Testing_Test(_@yT(J@,(%0),4),_y@T((%0)),STRINGISE__(%1 >= %0),(J@=_:(((%0)^(%0))|(%1))))
-#define ASSERT_GT(%1,%0) Testing_Test(_@yT(J@,(%0),5),_y@T((%0)),STRINGISE__(%1 >  %0),(J@=_:(((%0)^(%0))|(%1))))
+#define ASSERT_EQ(%1,%0) Testing_Test(_yT@(J@,(%0),0),_y@T((%0)),STRINGISE__(%1 == %0),(J@=_:(((%0)^(%0))|(%1))))
+#define ASSERT_NE(%1,%0) Testing_Test(_yT@(J@,(%0),1),_y@T((%0)),STRINGISE__(%1 != %0),(J@=_:(((%0)^(%0))|(%1))))
+#define ASSERT_LE(%1,%0) Testing_Test(_yT@(J@,(%0),2),_y@T((%0)),STRINGISE__(%1 <= %0),(J@=_:(((%0)^(%0))|(%1))))
+#define ASSERT_LT(%1,%0) Testing_Test(_yT@(J@,(%0),3),_y@T((%0)),STRINGISE__(%1 <  %0),(J@=_:(((%0)^(%0))|(%1))))
+#define ASSERT_GE(%1,%0) Testing_Test(_yT@(J@,(%0),4),_y@T((%0)),STRINGISE__(%1 >= %0),(J@=_:(((%0)^(%0))|(%1))))
+#define ASSERT_GT(%1,%0) Testing_Test(_yT@(J@,(%0),5),_y@T((%0)),STRINGISE__(%1 >  %0),(J@=_:(((%0)^(%0))|(%1))))
 
 // Zeroes.
 #define ASSERT_ZE(%1) Testing_Test(J@==0,"%s%s(%d)",STRINGISE__(%1==0),(J@=_:(%1)))
