@@ -629,10 +629,16 @@ stock _Testing_Start(const name[], run = true, const group[] = "", slow = false)
 			TextDrawTextSize(YSI_g_sQuestionTD, 600.0, 50.0),
 			TextDrawSetOutline(YSI_g_sQuestionTD, 0),
 			TextDrawSetShadow(YSI_g_sQuestionTD, 0),
-			TextDrawAlignment(YSI_g_sQuestionTD, TEXT_DRAW_ALIGN:1),
-			TextDrawColor(YSI_g_sQuestionTD, 0xFF7F37FF),
-			TextDrawBackgroundColor(YSI_g_sQuestionTD, 0xFFFFFFFF),
-			TextDrawBoxColor(YSI_g_sQuestionTD, 0x000000AA),
+			TextDrawAlignment(YSI_g_sQuestionTD, TEXT_DRAW_ALIGN:1);
+			#if defined _INC_open_mp
+				TextDrawColour(YSI_g_sQuestionTD, 0xFF7F37FF),
+				TextDrawBackgroundColour(YSI_g_sQuestionTD, 0xFFFFFFFF),
+				TextDrawBoxColour(YSI_g_sQuestionTD, 0x000000AA);
+			#else
+				TextDrawColor(YSI_g_sQuestionTD, 0xFF7F37FF),
+				TextDrawBackgroundColor(YSI_g_sQuestionTD, 0xFFFFFFFF),
+				TextDrawBoxColor(YSI_g_sQuestionTD, 0x000000AA);
+			#endif
 			TextDrawUseBox(YSI_g_sQuestionTD, true),
 			TextDrawSetProportional(YSI_g_sQuestionTD, true),
 			TextDrawSetSelectable(YSI_g_sQuestionTD, false),
