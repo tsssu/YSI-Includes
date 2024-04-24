@@ -78,12 +78,14 @@ Optional plugins:
 
 #include "..\..\YSI_Core\y_utils"
 #include "..\..\YSI_Server\y_thirdpartyinclude\y3_indirection"
-#include "..\y_bcrypt\y_bcrypt_entry"
+#include "..\y_bcrypt\y_bcrypt_natives"
 
 static stock const
-	YSI_gsc_Inline_BCryptCheckDone[] = "_Inline_BCryptCheckDone";
+	YSI_gsc_Inline_BCryptCheckDone[] = "_Inline_BCryptCheckDone",
+	YSI_gsc_Inline_BCryptHashDone[] = "_Inline_BCryptHashDone";
 
 forward _Inline_BCryptCheckDone(Func:cb<i>, success);
+forward _Inline_BCryptHashDone(Func:cb<si>, arg2);
 
 public _Inline_BCryptCheckDone(Func:cb<i>, success)
 {
@@ -91,17 +93,28 @@ public _Inline_BCryptCheckDone(Func:cb<i>, success)
 	{
 		success = _YSI_BCryptIsEqualA();
 	}
-	success = @.cb(success);
+	@.cb(success);
 	Indirect_Release(cb);
-	return success;
 }
 
-static stock _Inline_BCryptHashDone(Func:cb<si>, hashid)
+public _Inline_BCryptHashDone(Func:cb<si>, arg2)
 {
-	new hash[61];
-	// If the plugin is anything other than `1` or `2` this can't be called
-	// so there's no need for extra checks.
-	BCrypt_GetHash(hash);
+	new
+		hash[61],
+		hashid = Indirect_GetMeta(cb);
+	if (numargs() == 2)
+	{
+		// Secret internal hash ID.
+		_YSI_BCryptGetHashB(arg2, hash, sizeof (hash));
+	}
+	else if (BCrypt_GetPlugin() == BCRYPT_PLUGIN_VERSION_LASSIR)
+	{
+		_YSI_BCryptGetHashA(hash);
+	}
+	else
+	{
+		_YSI_BCryptGetHashE(hash, sizeof (hash));
+	}
 	if (Indirect_GetTag(cb) == _:tagof (F@_@si:))
 	{
 		Indirect_Call(_:cb, tagof (F@_@si:), hash, hashid);
@@ -111,10 +124,7 @@ static stock _Inline_BCryptHashDone(Func:cb<si>, hashid)
 		Indirect_Call(_:cb, tagof (F@_@s:), hash);
 	}
 	Indirect_Release(cb);
-	return hashid;
 }
-
-#define CALL@_Inline_BCryptHashDone%8() _Inline_BCryptHashDone%8(Func:0<si>, 0)
 
 stock bool:BCrypt_CheckInline(const password[], const hash[], Func:cb<i>)
 {
@@ -132,13 +142,23 @@ stock bool:BCrypt_CheckInline(const password[], const hash[], Func:cb<i>)
 
 stock BCrypt_HashInline(const password[], cost = 12, {F@_@s, F@_@si}:cb, tag = tagof (cb))
 {
-	cost = _BCrypt_Hash(_:cb, _:__addressof(_Inline_BCryptHashDone), password, cost);
-	if (cost)
+	++_YSI_gHashID;
+	Indirect_SetTag(cb, tag);
+	Indirect_SetMeta(cb, _YSI_gHashID);
+	switch (BCrypt_GetPlugin())
 	{
-		Indirect_SetTag(cb, tag);
-		Indirect_Claim(cb);
+	case BCRYPT_PLUGIN_VERSION_LASSIR:
+	{
+		return _YSI_BCryptHashA(password, cost, YSI_gsc_Inline_BCryptHashDone, YSI_gcI, _:cb) ? _YSI_gHashID : 0;
 	}
-	// Return the hashid.
-	return cost;
+	case BCRYPT_PLUGIN_VERSION_SREYAS_1, BCRYPT_PLUGIN_VERSION_SREYAS_2, BCRYPT_PLUGIN_VERSION_SREYAS_3, BCRYPT_PLUGIN_VERSION_SREYAS_4:
+	{
+		return _YSI_BCryptHashB(_:cb, YSI_gsc_Inline_BCryptHashDone, password, cost) ? _YSI_gHashID : 0;
+	}
+	default:
+	{
+		return 0;
+	}
+	}
 }
 
