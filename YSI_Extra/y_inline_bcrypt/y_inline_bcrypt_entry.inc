@@ -78,18 +78,13 @@ Optional plugins:
 
 #include "..\..\YSI_Core\y_utils"
 #include "..\..\YSI_Server\y_thirdpartyinclude\y3_indirection"
-#include "..\y_bcrypt\y_bcrypt_natives"
+#include "..\y_bcrypt\y_bcrypt_entry"
 
 forward _Inline_BCryptCheckDone(Func:cb<i>, success);
 forward _Inline_BCryptHashDone(Func:cb<si>, hashid);
 
 public _Inline_BCryptCheckDone(Func:cb<i>, success)
 {
-	// `success` may be uninitialised.
-	if (success == -1)
-	{
-		success = _YSI_BCryptIsEqualA();
-	}
 	success = @.cb(success);
 	Indirect_Release(cb);
 	return _:success;
@@ -100,57 +95,39 @@ public _Inline_BCryptHashDone(Func:cb<si>, hashid)
 	new hash[61];
 	// If the plugin is anything other than `1` or `2` this can't be called
 	// so there's no need for extra checks.
-	switch (BCrypt_GetPlugin())
+	BCrypt_GetHash(hash);
+	if (Indirect_GetTag(cb) == _:tagof (F@_@si:))
 	{
-	case 1:
-		_YSI_BCryptGetHashA(hash);
-	case 2:
-		_YSI_BCryptGetHashB(hash, sizeof (hash));
+		Indirect_Call(_:cb, tagof (F@_@si:), hash, hashid);
 	}
-	hashid = @.cb(hash, hashid),
+	else
+	{
+		Indirect_Call(_:cb, tagof (F@_@s:), hash);
+	}
 	Indirect_Release(cb);
 	return hashid;
 }
 
 stock bool:BCrypt_CheckInline(const password[], const hash[], Func:cb<i>)
 {
-	switch (BCrypt_GetPlugin())
+	if (BCrypt_Check(_:cb, "_Inline_BCryptCheckDone", password, hash))
 	{
-	case 1:
-		if (_YSI_BCryptCheckA(password, hash, "_Inline_BCryptCheckDone", "ii", _:cb, -1))
-		{
-			Indirect_Claim(cb);
-			return true;
-		}
-	case 2:
-		if (_YSI_BCryptCheckB(_:cb, "_Inline_BCryptCheckDone", password, hash))
-		{
-			Indirect_Claim(cb);
-			return true;
-		}
+		Indirect_Claim(cb);
+		return true;
 	}
 	return false;
 }
 
-stock BCrypt_HashInline(const password[], cost = 12, {F@_@s, F@_@si}:cb) // Func:cb<s> | Func:cb<si>
+stock BCrypt_HashInline(const password[], cost = 12, {F@_@s, F@_@si}:cb, tag = tagof (cb)) // Func:cb<s> | Func:cb<si>
 {
-	switch (BCrypt_GetPlugin())
+	printf("tag: %d", tag);
+	cost = BCrypt_Hash(_:cb, "_Inline_BCryptHashDone", password, cost);
+	if (cost)
 	{
-	case 1:
-		if (_YSI_BCryptHashA(password, cost, "_Inline_BCryptHashDone", "ii", _:cb, ++_YSI_gHashID))
-		{
-			Indirect_Claim(cb);
-			// Return the hashid.
-			return _YSI_gHashID;
-		}
-	case 2:
-		if ((cost = _YSI_BCryptHashB(_:cb, "_Inline_BCryptHashDone", password, cost)))
-		{
-			Indirect_Claim(cb);
-			// Return the hashid.
-			return cost;
-		}
+		Indirect_SetTag(cb, tag);
+		Indirect_Claim(cb);
 	}
-	return 0;
+	// Return the hashid.
+	return cost;
 }
 
