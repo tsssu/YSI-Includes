@@ -1151,7 +1151,7 @@ stock Reverse(data[], dataSize = sizeof (data))
 {
 	new
 		temp = 0;
-	for (new i = 0; j = dataSize - 1; i < j; ++i, --j)
+	for (new i = 0, j = dataSize - 1; i < j; ++i, --j)
 	{
 		temp   = data[i],
 		data[i] = data[j],
