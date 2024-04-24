@@ -242,7 +242,8 @@ new Timer:YSI_g_sKillYourself;
 
 @test(.group = "y_timers") TimeOverride()
 {
-	new Timer:t = defer TimeOverride[50]();
+	new time = 10;
+	new Timer:t = defer TimeOverride[_:time * 50]();
 	#pragma unused t
 }
 
