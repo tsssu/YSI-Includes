@@ -111,6 +111,7 @@ static stock
 
 static stock Timer_InlineRepeat(Func:func<>)
 {
+	Debug_Print5("Timer_InlineRepeat called: %d", _:func);
 	// Normal repeating timer.
 	@.func();
 }
@@ -124,8 +125,10 @@ static stock Timer_InlineRepeat(Func:func<>)
 
 static stock Timer_InlineCount(Func:func<>, time, count)
 {
-	--count;
-	if (count == -1)
+	Debug_Print5("Timer_InlineCount called: %d, %d, %d", _:func, time, count);
+	switch (--count)
+	{
+	case -1:
 	{
 		// Initial repeating timer, to set the time offset.
 		//printf("delay = %d", timer);
@@ -133,18 +136,19 @@ static stock Timer_InlineCount(Func:func<>, time, count)
 		// Call the function after setting the meta, incase it kills the timer.
 		@.func();
 	}
-	if (count == 0)
+	case 0:
 	{
 		// Call before release.
 		@.func();
 		Indirect_Release(func);
 		Debug_Print7("y_inlineTimerCount ending: %d (%d)", _:func, ++YSI_gsCalls);
 	}
-	else
+	default:
 	{
 		// Call after meta.
 		Indirect_SetMeta(func, SetTimerEx(&Timer_InlineCount<tF@_@:ii>, time, false, __const(YSI_gcIII), _:func, time, count));
 		@.func();
+	}
 	}
 }
 
@@ -186,6 +190,7 @@ static stock Timer_InlineCount(Func:func<>, time, count)
 
 stock Timer_CreateCallback(Func:func<>, initialOrTime, timeOrCount = 0, count = -1)
 {
+	Debug_Print3("Timer_CreateCallback called: %d, %d, %d, %d", _:func, initialOrTime, timeOrCount, count);
 	if (count == -1)
 	{
 		// No `initial` time.
@@ -238,6 +243,7 @@ stock SetCallbackTimer(Func:func<>, initialOrTime, timeOrCount = 0, count = -1)
 
 stock Timer_KillCallback(func)
 {
+	Debug_Print3("Timer_KillCallback called: %d", func);
 	new timer = Indirect_GetMeta(func);
 	Indirect_Release(func);
 	return KillTimer(timer);
