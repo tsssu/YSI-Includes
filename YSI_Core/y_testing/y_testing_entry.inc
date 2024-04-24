@@ -889,6 +889,7 @@ stock bool:Testing_Run(&tests, &checks, &fails, const lastfail[33] = "", bool:p 
 #if !defined NO_PLAYER_TESTS
 	stock bool:Testing_Player(playerid, &idx, &tests, &checks, &fails, const lastfail[33] = "", bool:p = false)
 	{
+		#pragma unused idx, tests, checks, fails, lastfail, p
 		if (YSI_g_sPlayer == cellmax && !IsPlayerNPC(playerid)) //!Player_IsNPC(playerid))
 		{
 #if !defined LIGHT_TEST_REPORT
