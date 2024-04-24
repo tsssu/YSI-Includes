@@ -221,7 +221,7 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	stock bool:va_SendClientMessage(playerid, colour, const fmat[], GLOBAL_TAG_TYPES:...)
 	{
 		if (YSI_CheckNumargs__(3))
-			return bool:SendClientMessage(playerid, colour, __const(fmat));
+			return bool:SendClientMessage(playerid, colour, fmat);
 		return
 			format(YSI_UNSAFE_HUGE_STRING, YSI_UNSAFE_HUGE_LENGTH, fmat, ___(3)),
 			bool:SendClientMessage(playerid, colour, YSI_UNSAFE_HUGE_STRING);
@@ -230,7 +230,7 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	stock bool:va_SendClientMessageToAll(colour, const fmat[], GLOBAL_TAG_TYPES:...)
 	{
 		if (YSI_CheckNumargs__(2))
-			return bool:SendClientMessageToAll(colour, __const(fmat));
+			return bool:SendClientMessageToAll(colour, fmat);
 		return
 			format(YSI_UNSAFE_HUGE_STRING, YSI_UNSAFE_HUGE_LENGTH, fmat, ___(2)),
 			bool:SendClientMessageToAll(colour, YSI_UNSAFE_HUGE_STRING);
@@ -239,7 +239,7 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	stock bool:va_SendPlayerMessageToPlayer(playerid, senderid, const fmat[], GLOBAL_TAG_TYPES:...)
 	{
 		if (YSI_CheckNumargs__(3))
-			return bool:SendPlayerMessageToPlayer(playerid, senderid, __const(fmat));
+			return bool:SendPlayerMessageToPlayer(playerid, senderid, fmat);
 		return
 			format(YSI_UNSAFE_HUGE_STRING, YSI_UNSAFE_HUGE_LENGTH, fmat, ___(3)),
 			bool:SendPlayerMessageToPlayer(playerid, senderid, YSI_UNSAFE_HUGE_STRING);
@@ -248,7 +248,7 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	stock bool:va_SendPlayerMessageToAll(senderid, const fmat[], GLOBAL_TAG_TYPES:...)
 	{
 		if (YSI_CheckNumargs__(2))
-			return bool:SendPlayerMessageToAll(senderid, __const(fmat));
+			return bool:SendPlayerMessageToAll(senderid, fmat);
 		return
 			format(YSI_UNSAFE_HUGE_STRING, YSI_UNSAFE_HUGE_LENGTH, fmat, ___(2)),
 			bool:SendPlayerMessageToAll(senderid, YSI_UNSAFE_HUGE_STRING);
@@ -257,7 +257,7 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	stock bool:va_GameTextForPlayer(playerid, const fmat[], time, style, GLOBAL_TAG_TYPES:...)
 	{
 		if (YSI_CheckNumargs__(4))
-			return bool:GameTextForPlayer(playerid, __const(fmat), time, style);
+			return bool:GameTextForPlayer(playerid, fmat, time, style);
 		return
 			format(YSI_UNSAFE_HUGE_STRING, YSI_UNSAFE_HUGE_LENGTH, fmat, ___(4)),
 			bool:GameTextForPlayer(playerid, YSI_UNSAFE_HUGE_STRING, time, style);
@@ -266,7 +266,7 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	stock bool:va_GameTextForAll(const fmat[], time, style, GLOBAL_TAG_TYPES:...)
 	{
 		if (YSI_CheckNumargs__(3))
-			return bool:GameTextForAll(__const(fmat), time, style);
+			return bool:GameTextForAll(fmat, time, style);
 		return
 			format(YSI_UNSAFE_HUGE_STRING, YSI_UNSAFE_HUGE_LENGTH, fmat, ___(3)),
 			bool:GameTextForAll(YSI_UNSAFE_HUGE_STRING, time, style);
@@ -284,7 +284,7 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	stock bool:va_SetGameModeText(const fmat[], GLOBAL_TAG_TYPES:...)
 	{
 		if (YSI_CheckNumargs__(1))
-			return bool:SetGameModeText(__const(fmat));
+			return bool:SetGameModeText(fmat);
 		return
 			format(YSI_UNSAFE_HUGE_STRING, YSI_UNSAFE_HUGE_LENGTH, fmat, ___(1)),
 			bool:SetGameModeText(YSI_UNSAFE_HUGE_STRING);
@@ -319,7 +319,7 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	stock Menu:va_CreateMenu(const fmat[], columns, Float:x, Float:y, Float:col1width, Float:col2width = 0.0, GLOBAL_TAG_TYPES:...)
 	{
 		if (YSI_CheckNumargs__(6))
-			return CreateMenu(__const(fmat), columns, x, y, col1width, col2width);
+			return CreateMenu(fmat, columns, x, y, col1width, col2width);
 		return
 			format(YSI_UNSAFE_HUGE_STRING, YSI_UNSAFE_HUGE_LENGTH, fmat, ___(6)),
 			CreateMenu(YSI_UNSAFE_HUGE_STRING, columns, x, y, col1width, col2width);
@@ -328,7 +328,7 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	stock va_AddMenuItem(Menu:menuid, column, const fmat[], GLOBAL_TAG_TYPES:...)
 	{
 		if (YSI_CheckNumargs__(3))
-			return AddMenuItem(menuid, column, __const(fmat));
+			return AddMenuItem(menuid, column, fmat);
 		return
 			format(YSI_UNSAFE_HUGE_STRING, YSI_UNSAFE_HUGE_LENGTH, fmat, ___(3)),
 			AddMenuItem(menuid, column, YSI_UNSAFE_HUGE_STRING);
@@ -337,7 +337,7 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	stock bool:va_SetMenuColumnHeader(Menu:menuid, column, const fmat[], GLOBAL_TAG_TYPES:...)
 	{
 		if (YSI_CheckNumargs__(3))
-			return bool:SetMenuColumnHeader(menuid, column, __const(fmat));
+			return bool:SetMenuColumnHeader(menuid, column, fmat);
 		return
 			format(YSI_UNSAFE_HUGE_STRING, YSI_UNSAFE_HUGE_LENGTH, fmat, ___(3)),
 			bool:SetMenuColumnHeader(menuid, column, YSI_UNSAFE_HUGE_STRING);

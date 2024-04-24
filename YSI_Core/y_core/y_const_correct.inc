@@ -47,13 +47,9 @@
 #if !defined SAMP_CONST_CORRECT
 	// The libraries are not const-corret.
 	#define SAMP_CONST_INCORRECT
-	#if defined __PawnBuild
-		#if __PawnBuild >= 9
-			// But they should be.
-			#undef __const
-			#define __const __const_impl
-		#endif
-	#endif
+	// But they should be.
+	#undef __const
+	#define __const __const_impl
 #endif
 
 #if !defined __const_decl

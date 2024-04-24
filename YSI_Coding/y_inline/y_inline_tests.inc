@@ -2037,7 +2037,7 @@ public y_inline_CallLaterPublic()
 static stock y_inline_CallLater(Func:cb<>)
 {
 	Indirect_Claim(cb);
-	SetTimerEx("Indirect_FromCallback", 100 + random(100), false, "ii", _:cb, true);
+	SetTimerEx(__const("Indirect_FromCallback"), 100 + random(100), false, "ii", _:cb, true);
 }
 
 @test(.group = "y_inline") y_inline_CallLater()

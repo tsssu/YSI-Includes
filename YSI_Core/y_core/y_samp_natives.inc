@@ -159,7 +159,7 @@ static stock const
 
 stock SetTimerAddr(addr, time, bool:repeat)
 {
-	return SetTimerEx(__const(YSI_gscTimerStub), time, repeat, __const(YSI_gcI), addr);
+	return SetTimerEx(__const(YSI_gscTimerStub), time, repeat, YSI_gcI, addr);
 }
 
 #if defined _ALS_SetTimer

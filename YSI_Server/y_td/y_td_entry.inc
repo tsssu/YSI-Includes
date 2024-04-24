@@ -6,19 +6,19 @@
 /*
 Legal:
 	Version: MPL 1.1
-	
-	The contents of this file are subject to the Mozilla Public License Version 
-	1.1 the "License"; you may not use this file except in compliance with 
-	the License. You may obtain a copy of the License at 
+
+	The contents of this file are subject to the Mozilla Public License Version
+	1.1 the "License"; you may not use this file except in compliance with
+	the License. You may obtain a copy of the License at
 	http://www.mozilla.org/MPL/
-	
+
 	Software distributed under the License is distributed on an "AS IS" basis,
 	WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
 	for the specific language governing rights and limitations under the
 	License.
-	
+
 	The Original Code is the YSI framework.
-	
+
 	The Initial Developer of the Original Code is Alex "Y_Less" Cole.
 	Portions created by the Initial Developer are Copyright (c) 2022
 	the Initial Developer. All Rights Reserved.
@@ -170,10 +170,10 @@ static stock
 
 //static stock TD_SetTimer(playerid, Text:td, time, revision)
 //{
-//	SetTimerEx(__const("TD_HideForPlayer"), time, false, __const("iii"), playerid, _:td, revision);
+//	SetTimerEx(__const("TD_HideForPlayer"), time, false, "iii", playerid, _:td, revision);
 //}
 
-#define TD_SetTimer(%0,%1,%2,%3) SetTimerEx(__const("TD_HideForPlayerPub"), (%2), false, __const("iii"), (%0), _:(%1), (%3))
+#define TD_SetTimer(%0,%1,%2,%3) SetTimerEx(__const("TD_HideForPlayerPub"), (%2), false, YSI_gcIII, (%0), _:(%1), (%3))
 
 /*-------------------------------------------------------------------------*//**
  * <param name="id">Text draw style to check validity of,</param>
@@ -1162,7 +1162,7 @@ stock TD_Update(Style:id, bool:pos = false)
 	// Update the apperance after a load of updates have been applied.
 	if (YSI_g_sTDData[id][E_TD_DATA_UPDATE] == -1)
 	{
-		YSI_g_sTDData[id][E_TD_DATA_UPDATE] = SetTimerEx(__const("TD_UpdateInternal"), 1, false, __const(YSI_gcI), _:id);
+		YSI_g_sTDData[id][E_TD_DATA_UPDATE] = SetTimerEx(__const("TD_UpdateInternal"), 1, false, YSI_gcI, _:id);
 	}
 }
 
@@ -1655,7 +1655,7 @@ stock TD_ShowForPlayer(playerid, Text:textDraw)
 		}*/
 		if (time)
 		{
-			//YSI_g_sTDTimers[textDraw][playerid] = SetTimerEx(__const("TD_HideForPlayer"), time, false, __const(YSI_gcII), playerid, _:textDraw);
+			//YSI_g_sTDTimers[textDraw][playerid] = SetTimerEx(__const("TD_HideForPlayer"), time, false, YSI_gcII, playerid, _:textDraw);
 			TD_SetTimer(playerid, textDraw, time, YSI_g_sTDDisplay[textDraw][E_TD_DISPLAY_REVISION]);
 		}
 		return 1;
@@ -1934,8 +1934,8 @@ stock TD_Morph(Text:textDraw, Style:style, time, delay = 0)
 		//FOREACH__ (new playerid : PS(players))
 		//{
 			//TD_MorphInternal(playerid, textDraw, style);
-		SetTimerEx(__const("TD_MorphTDInternal"), delay + Y_TD_FRAME_TIME, false, __const("iiiiii"), _:textDraw, _:TD_GetDisplayStyle(textDraw), _:style, time, Y_TD_FRAME_TIME, YSI_g_sTDDisplay[textDraw][E_TD_DISPLAY_REVISION]); //, YSI_g_sTDDisplay[textDraw][E_TD_DISPLAY_REAL]);
-		//SetTimerEx(__const("TD_MorphTDInternal"), delay + Y_TD_FRAME_TIME, false, __const("iiiiii"), _:textDraw, TD_GetDisplayStyle());
+		SetTimerEx(__const("TD_MorphTDInternal"), delay + Y_TD_FRAME_TIME, false, "iiiiii", _:textDraw, _:TD_GetDisplayStyle(textDraw), _:style, time, Y_TD_FRAME_TIME, YSI_g_sTDDisplay[textDraw][E_TD_DISPLAY_REVISION]); //, YSI_g_sTDDisplay[textDraw][E_TD_DISPLAY_REAL]);
+		//SetTimerEx(__const("TD_MorphTDInternal"), delay + Y_TD_FRAME_TIME, false, "iiiiii", _:textDraw, TD_GetDisplayStyle());
 		//}
 		return 1;
 	}
@@ -2050,7 +2050,7 @@ public TD_MorphTDInternal(Text:td, Style:from, Style:to, speed, pos, revision)
 		// Even though "td" changes in the loop, the end condition is that "td"
 		// is the same as when the loop started, meaning that it's fine to reuse
 		// it here.
-		SetTimerEx(__const("TD_MorphTDInternal"), Y_TD_FRAME_TIME, false, __const("iiiiii"), _:td, _:from, _:to, speed, pos + Y_TD_FRAME_TIME, revision);
+		SetTimerEx(__const("TD_MorphTDInternal"), Y_TD_FRAME_TIME, false, "iiiiii", _:td, _:from, _:to, speed, pos + Y_TD_FRAME_TIME, revision);
 	}
 	return 1;
 }

@@ -160,7 +160,7 @@ public OnCodeInit()
 				Debug_Print7("Timer_OnYSIInit: %s", Unpack(buffer));
 				// Get the time offset for the current call.  This should mean
 				// that all the functions are nicely spread out.
-				SetTimerEx(__const(buffer), time * pre / total, false, __const(YSI_gcII), 1, -1);
+				SetTimerEx(buffer, time * pre / total, false, YSI_gcII, 1, -1);
 			}
 		}
 	}
@@ -344,13 +344,13 @@ stock _y@T:_Timer_D(const func[], interval, const {_, _yT@}:action, who, results
 				{
 					if (!results[who])
 					{
-						results[who] = SetTimerEx(__const(func), interval, true, __const(YSI_gcI), who);
+						results[who] = SetTimerEx(__const(func), interval, true, YSI_gcI, who);
 					}
 				}
 			}
 			else if (!results[who])
 			{
-				results[who] = SetTimerEx(__const(func), interval, true, __const(YSI_gcI), who);
+				results[who] = SetTimerEx(__const(func), interval, true, YSI_gcI, who);
 			}
 		}
 	}

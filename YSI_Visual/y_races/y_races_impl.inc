@@ -587,7 +587,7 @@ GLOBAL__ void:Race_SetEntry(raceid, cost)
 
 _Y_RACES_STATIC Race_Dropout(playerid)
 {
-	SetTimerEx(&Race_Timeout, (YSI_g_sRaceData[(YSI_g_sPlayerRace[playerid][E_RACE_PLAYER_RACE])][E_RACE_FLAGS] & e_RACE_FLAGS_EXIT_TIME), false, __const(YSI_gcI), playerid);
+	SetTimerEx(&Race_Timeout, (YSI_g_sRaceData[(YSI_g_sPlayerRace[playerid][E_RACE_PLAYER_RACE])][E_RACE_FLAGS] & e_RACE_FLAGS_EXIT_TIME), false, YSI_gcI, playerid);
 	YSI_g_sPlayerRace[playerid][E_RACE_PLAYER_RACE] |= RACE_PLAYER_OUT;
 	YSI_g_sPlayerRace[playerid][E_RACE_PLAYER_TOUT] = GetTickCount();
 }
@@ -881,7 +881,7 @@ static stock Race_Countdown(race, time)
 	if (time)
 	{
 		Text_Send(YSI_g_sRacers[race], $YSI_RACE_COUNTDOWN, time);
-		SetTimerEx(&Race_Countdown, 1000, false, __const(YSI_gcII), race, time - 1);
+		SetTimerEx(&Race_Countdown, 1000, false, YSI_gcII, race, time - 1);
 	}
 	else
 	{

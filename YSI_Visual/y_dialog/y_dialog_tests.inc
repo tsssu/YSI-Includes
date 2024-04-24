@@ -180,7 +180,7 @@ public Dialog_TestHide(playerid)
 		#pragma unused arg0, arg1, arg2
 	}
 	Dialog_ShowCallback(playerid, using inline Response, DIALOG_STYLE_INPUT, "Dialog", "Input:", "OK", "CANCEL");
-	SetTimerEx("Dialog_TestHide", 5000, false, "i", playerid);
+	SetTimerEx(__const("Dialog_TestHide"), 5000, false, "i", playerid);
 	ASK("Does the dialog disappear after 5 seconds?");
 }
 
