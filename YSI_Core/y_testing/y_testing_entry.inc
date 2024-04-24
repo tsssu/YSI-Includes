@@ -1467,9 +1467,23 @@ static stock y_testing_ReturnHello()
 #include ".\libs\y_testing_c"
 #include ".\libs\y_testing_f"
 
+#if defined YSI_NO_TEST_WARNINGS
+	#pragma warning push
+	#pragma warning disable 203
+	#pragma warning disable 204
+	#pragma warning disable 213
+	#pragma warning disable 214
+	#pragma warning disable 219
+	#pragma warning disable 234
+	#pragma warning disable 239
+	#pragma warning disable 240
+#endif
 #include "..\y_core\y_utils_tests"
 #include "..\y_core\y_als_tests"
 #include "..\y_core\y_cell_tests"
 #include "..\y_core\y_amx_tests"
 #include "..\..\YSI_Coding\y_unique\y_unique_tests"
+#if defined YSI_NO_TEST_WARNINGS
+	#pragma warning pop
+#endif
 

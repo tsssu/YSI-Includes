@@ -228,6 +228,10 @@ new Timer:YSI_g_sKillYourself;
 {
 }
 
+#if defined YSI_NO_TEST_WARNINGS
+	#pragma unused _@yTy_timers_syntax2
+#endif
+
 @timer(500, .auto = true) y_timers_syntax3(playerid)
 {
 }

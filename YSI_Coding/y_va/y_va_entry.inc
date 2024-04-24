@@ -156,7 +156,21 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	}
 
 	#if defined YSI_TESTS
+		#if defined YSI_NO_TEST_WARNINGS
+			#pragma warning push
+			#pragma warning disable 203
+			#pragma warning disable 204
+			#pragma warning disable 213
+			#pragma warning disable 214
+			#pragma warning disable 219
+			#pragma warning disable 234
+			#pragma warning disable 239
+			#pragma warning disable 240
+		#endif
 		#include "y_va_tests"
+		#if defined YSI_NO_TEST_WARNINGS
+			#pragma warning pop
+		#endif
 	#endif
 #else
 	stock PlayerText:va_CreatePlayerTextDraw(playerid, Float:x, Float:y, const fmat[], GLOBAL_TAG_TYPES:...)
@@ -434,7 +448,21 @@ stock bool:va_SetVehicleNumberPlate(vehicleid, const fmat[], GLOBAL_TAG_TYPES:..
 	native bool:va_TextDrawSetStringForPlayer(Text:text, playerid, const fmat[], GLOBAL_TAG_TYPES:...) = TextDrawSetStringForPlayer;
 
 	#if defined YSI_TESTS
+		#if defined YSI_NO_TEST_WARNINGS
+			#pragma warning push
+			#pragma warning disable 203
+			#pragma warning disable 204
+			#pragma warning disable 213
+			#pragma warning disable 214
+			#pragma warning disable 219
+			#pragma warning disable 234
+			#pragma warning disable 239
+			#pragma warning disable 240
+		#endif
 		#include "y_va_tests"
+		#if defined YSI_NO_TEST_WARNINGS
+			#pragma warning pop
+		#endif
 	#endif
 
 	#if defined YSI_NO_AUTO_VA
