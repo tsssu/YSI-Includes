@@ -113,6 +113,7 @@ public _Inline_BCryptHashDone(Func:cb<si>, arg2)
 	}
 	else
 	{
+		// Can't be called if there's no valid plugin found.  So this is safe.
 		_YSI_BCryptGetHashE(hash, sizeof (hash));
 	}
 	if (Indirect_GetTag(cb) == _:tagof (F@_@si:))
@@ -135,7 +136,6 @@ stock bool:BCrypt_CheckInline(const password[], const hash[], Func:cb<i>)
 	case BCRYPT_PLUGIN_VERSION_SREYAS_1, BCRYPT_PLUGIN_VERSION_SREYAS_2, BCRYPT_PLUGIN_VERSION_SREYAS_3, BCRYPT_PLUGIN_VERSION_SREYAS_4:
 		return _YSI_BCryptCheckB(_:cb, YSI_gsc_Inline_BCryptCheckDone, password, hash);
 	default:
-		// None found.
 		return false;
 	}
 }
@@ -148,17 +148,11 @@ stock BCrypt_HashInline(const password[], cost = 12, {F@_@s, F@_@si}:cb, tag = t
 	switch (BCrypt_GetPlugin())
 	{
 	case BCRYPT_PLUGIN_VERSION_LASSIR:
-	{
 		return _YSI_BCryptHashA(password, cost, YSI_gsc_Inline_BCryptHashDone, YSI_gcI, _:cb) ? _YSI_gHashID : 0;
-	}
 	case BCRYPT_PLUGIN_VERSION_SREYAS_1, BCRYPT_PLUGIN_VERSION_SREYAS_2, BCRYPT_PLUGIN_VERSION_SREYAS_3, BCRYPT_PLUGIN_VERSION_SREYAS_4:
-	{
 		return _YSI_BCryptHashB(_:cb, YSI_gsc_Inline_BCryptHashDone, password, cost) ? _YSI_gHashID : 0;
-	}
 	default:
-	{
 		return 0;
-	}
 	}
 }
 
