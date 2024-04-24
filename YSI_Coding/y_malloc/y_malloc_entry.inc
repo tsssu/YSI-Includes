@@ -209,7 +209,8 @@ forward Alloc:calloc(size);
 	
 	// Allocate space on the heap permanently.
 	#if !defined YSI_YES_HEAP_MALLOC
-		#include "y_malloc_warning"
+		//#include "y_malloc_warning"
+		#define YSI_YES_HEAP_MALLOC
 	#endif
 	
 	#include "y_malloc_heapalloc"
