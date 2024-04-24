@@ -2263,7 +2263,7 @@ stock Inline_UI_(const &header, tag)
 		ResolvedAlloc:ra = Malloc_Resolve(closure);
 	RawMemCpy(_:ra + E_INLINE_CALL_PARAMS__, ptr, size);
 	AMX_Write(_:ra + (E_INLINE_CALL_PARAMS__ + __2_cells) + frm, args);
-	Debug_Print5("Inline_UI_: ptr = %08x, addr = %08x, data = %08x", Indirect_Ptr(ra), ra, closure);
+	Debug_Print5("Inline_UI_: ptr = %08x, addr = %08x, data = %08x", _:Indirect_Ptr(ra), _:ra, _:closure);
 	return Indirect_Ptr(ra);
 }
 #if __COMPILER_CONST_REF

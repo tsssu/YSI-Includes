@@ -82,6 +82,9 @@ Optional plugins:
 #define YSI_VERSION_MINOR               10
 #define YSI_VERSION_BUILD               0006
 
+stock const YSI_VERSION_BCD = (YSI_VERSION_MAJOR << 24) | (YSI_VERSION_MINOR << 16) | (YSI_VERSION_BUILD);
+//static YSI_version_5_10_0006 = YSI_VERSION_BCD;
+
 #define YSI_VERSION                     #YSI_VERSION_MAJOR "." #YSI_VERSION_MINOR "." #YSI_VERSION_BUILD
 
 // These includes are in quite a strict order, since there's a lot of inter-
