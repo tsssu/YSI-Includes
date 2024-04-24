@@ -80,17 +80,23 @@ Optional plugins:
 #include "..\..\YSI_Server\y_thirdpartyinclude\y3_indirection"
 #include "..\y_bcrypt\y_bcrypt_entry"
 
+static stock const
+	YSI_gsc_Inline_BCryptCheckDone[] = "_Inline_BCryptCheckDone";
+
 forward _Inline_BCryptCheckDone(Func:cb<i>, success);
-forward _Inline_BCryptHashDone(Func:cb<si>, hashid);
 
 public _Inline_BCryptCheckDone(Func:cb<i>, success)
 {
+	if (success == -1)
+	{
+		success = _YSI_BCryptIsEqualA();
+	}
 	success = @.cb(success);
 	Indirect_Release(cb);
-	return _:success;
+	return success;
 }
 
-public _Inline_BCryptHashDone(Func:cb<si>, hashid)
+static stock _Inline_BCryptHashDone(Func:cb<si>, hashid)
 {
 	new hash[61];
 	// If the plugin is anything other than `1` or `2` this can't be called
@@ -108,20 +114,25 @@ public _Inline_BCryptHashDone(Func:cb<si>, hashid)
 	return hashid;
 }
 
+#define CALL@_Inline_BCryptHashDone%8() _Inline_BCryptHashDone%8(Func:0<si>, 0)
+
 stock bool:BCrypt_CheckInline(const password[], const hash[], Func:cb<i>)
 {
-	if (BCrypt_Check(_:cb, "_Inline_BCryptCheckDone", password, hash))
+	switch (BCrypt_GetPlugin())
 	{
-		Indirect_Claim(cb);
-		return true;
+	case BCRYPT_PLUGIN_VERSION_LASSIR:
+		return _YSI_BCryptCheckA(password, hash, YSI_gsc_Inline_BCryptCheckDone, YSI_gcII, _:cb, -1);
+	case BCRYPT_PLUGIN_VERSION_SREYAS_1, BCRYPT_PLUGIN_VERSION_SREYAS_2, BCRYPT_PLUGIN_VERSION_SREYAS_3, BCRYPT_PLUGIN_VERSION_SREYAS_4:
+		return _YSI_BCryptCheckB(_:cb, YSI_gsc_Inline_BCryptCheckDone, password, hash);
+	default:
+		// None found.
+		return false;
 	}
-	return false;
 }
 
-stock BCrypt_HashInline(const password[], cost = 12, {F@_@s, F@_@si}:cb, tag = tagof (cb)) // Func:cb<s> | Func:cb<si>
+stock BCrypt_HashInline(const password[], cost = 12, {F@_@s, F@_@si}:cb, tag = tagof (cb))
 {
-	printf("tag: %d", tag);
-	cost = BCrypt_Hash(_:cb, "_Inline_BCryptHashDone", password, cost);
+	cost = _BCrypt_Hash(_:cb, _:__addressof(_Inline_BCryptHashDone), password, cost);
 	if (cost)
 	{
 		Indirect_SetTag(cb, tag);

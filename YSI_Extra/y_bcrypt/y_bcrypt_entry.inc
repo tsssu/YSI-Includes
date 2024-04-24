@@ -80,7 +80,7 @@ Optional plugins:
 #include "..\y_bcrypt\y_bcrypt_natives"
 
 forward _YSI_BCryptCheckDone(extra, ptr);
-forward _YSI_BCryptHashDone(hashid, ptr, extra);
+forward _YSI_BCryptHashDone(hashid, arg2, arg3);
 
 static stock const
 	YSI_gscProp1[] = "_@yT%d",
@@ -110,8 +110,11 @@ public _YSI_BCryptCheckDone(extra, ptr)
 	#emit RETN
 }
 
-public _YSI_BCryptHashDone(hashid, ptr, extra)
+public _YSI_BCryptHashDone(hashid, arg2, arg3)
 {
+	new
+		ptr,
+		extra;
 	switch (numargs())
 	{
 	case 1:
@@ -131,7 +134,7 @@ public _YSI_BCryptHashDone(hashid, ptr, extra)
 		// V1.
 		new
 			prop[16];
-		_YSI_gLastHash = ptr,
+		_YSI_gLastHash = arg2,
 		format(prop, sizeof (prop), YSI_gscProp1, hashid),
 		extra = getproperty(0, prop),
 		deleteproperty(0, prop),
@@ -152,6 +155,8 @@ public _YSI_BCryptHashDone(hashid, ptr, extra)
 			deleteproperty(0, prop),
 			BCrypt_SetPlugin(BCRYPT_PLUGIN_VERSION_SREYAS_3);
 		}
+		ptr = arg2;
+		extra = arg3;
 	}
 	}
 	{}
@@ -192,7 +197,7 @@ stock bool:BCrypt_Check(extra, const callback[], const password[], const hash[])
 	case BCRYPT_PLUGIN_VERSION_LASSIR:
 	{
 		new ptr;
-		return AMX_GetPublicPointer(0, ptr, callback, true) && _YSI_BCryptCheckA(password, hash, "_YSI_BCryptCheckDone", "ii", extra, ptr);
+		return AMX_GetPublicPointer(0, ptr, callback, true) && _YSI_BCryptCheckA(password, hash, "_YSI_BCryptCheckDone", YSI_gcII, extra, ptr);
 	}
 	case BCRYPT_PLUGIN_VERSION_SREYAS_1, BCRYPT_PLUGIN_VERSION_SREYAS_2, BCRYPT_PLUGIN_VERSION_SREYAS_3, BCRYPT_PLUGIN_VERSION_SREYAS_4:
 		return _YSI_BCryptCheckB(extra, callback, password, hash);
@@ -202,53 +207,59 @@ stock bool:BCrypt_Check(extra, const callback[], const password[], const hash[])
 	}
 }
 
-stock BCrypt_Hash(extra, const callback[], const password[], cost = 12)
+stock _BCrypt_Hash(extra, ptr, const password[], cost)
 {
 	++_YSI_gHashID;
+	switch (BCrypt_GetPlugin())
+	{
+	case BCRYPT_PLUGIN_VERSION_LASSIR:
+	{
+		return _YSI_BCryptHashA(password, cost, YSI_gscBCryptHashDone, YSI_gcIII, _YSI_gHashID, ptr, extra) ? _YSI_gHashID : 0;
+	}
+	case BCRYPT_PLUGIN_VERSION_SREYAS_1:
+	{
+		if (_YSI_BCryptHashB(_YSI_gHashID, YSI_gscBCryptHashDone, password, cost))
+		{
+			new
+				prop[16];
+			format(prop, sizeof (prop), YSI_gscProp1, _YSI_gHashID),
+			setproperty(0, prop, extra),
+			format(prop, sizeof (prop), YSI_gscProp2, _YSI_gHashID),
+			setproperty(0, prop, ptr);
+			return _YSI_gHashID;
+		}
+	}
+	case BCRYPT_PLUGIN_VERSION_SREYAS_2:
+	{
+		if (_YSI_BCryptHashE(_YSI_gHashID, YSI_gscBCryptHashDone, password, cost, YSI_gcII, ptr, extra))
+		{
+			new
+				prop[16];
+			format(prop, sizeof (prop), YSI_gscProp1, _YSI_gHashID),
+			setproperty(0, prop, extra),
+			format(prop, sizeof (prop), YSI_gscProp2, _YSI_gHashID),
+			setproperty(0, prop, ptr);
+			return _YSI_gHashID;
+		}
+	}
+	case BCRYPT_PLUGIN_VERSION_SREYAS_3, BCRYPT_PLUGIN_VERSION_SREYAS_4:
+	{
+		// May have extra data.
+		return _YSI_BCryptHashE(_YSI_gHashID, YSI_gscBCryptHashDone, password, cost, YSI_gcII, ptr, extra) ? _YSI_gHashID : 0;
+	}
+	default:
+	{
+	}
+	}
+	return 0;
+}
+
+stock BCrypt_Hash(extra, const callback[], const password[], cost = 12)
+{
 	new ptr;
 	if (AMX_GetPublicPointer(0, ptr, callback, true))
 	{
-		switch (BCrypt_GetPlugin())
-		{
-		case BCRYPT_PLUGIN_VERSION_LASSIR:
-		{
-			return _YSI_BCryptHashA(password, cost, YSI_gscBCryptHashDone, YSI_gcIII, _YSI_gHashID, ptr, extra) ? _YSI_gHashID : 0;
-		}
-		case BCRYPT_PLUGIN_VERSION_SREYAS_1:
-		{
-			if (_YSI_BCryptHashB(_YSI_gHashID, YSI_gscBCryptHashDone, password, cost))
-			{
-				new
-					prop[16];
-				format(prop, sizeof (prop), YSI_gscProp1, _YSI_gHashID),
-				setproperty(0, prop, extra),
-				format(prop, sizeof (prop), YSI_gscProp2, _YSI_gHashID),
-				setproperty(0, prop, ptr);
-				return _YSI_gHashID;
-			}
-		}
-		case BCRYPT_PLUGIN_VERSION_SREYAS_2:
-		{
-			if (_YSI_BCryptHashE(_YSI_gHashID, YSI_gscBCryptHashDone, password, cost, YSI_gcII, ptr, extra))
-			{
-				new
-					prop[16];
-				format(prop, sizeof (prop), YSI_gscProp1, _YSI_gHashID),
-				setproperty(0, prop, extra),
-				format(prop, sizeof (prop), YSI_gscProp2, _YSI_gHashID),
-				setproperty(0, prop, ptr);
-				return _YSI_gHashID;
-			}
-		}
-		case BCRYPT_PLUGIN_VERSION_SREYAS_3, BCRYPT_PLUGIN_VERSION_SREYAS_4:
-		{
-			// May have extra data.
-			return _YSI_BCryptHashE(_YSI_gHashID, YSI_gscBCryptHashDone, password, cost, YSI_gcII, ptr, extra) ? _YSI_gHashID : 0;
-		}
-		default:
-		{
-		}
-		}
+		return _BCrypt_Hash(extra, ptr, password, cost);
 	}
 	return 0;
 }
