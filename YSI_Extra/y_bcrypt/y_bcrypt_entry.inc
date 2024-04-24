@@ -123,11 +123,11 @@ public _YSI_BCryptHashDone(hashid, arg2, arg3)
 		new
 			prop[16];
 		format(prop, sizeof (prop), YSI_gscProp1, hashid),
-		extra = getproperty(0, prop),
-		deleteproperty(0, prop),
+		extra = GetSVarInt(prop),
+		DeleteSVar(prop),
 		format(prop, sizeof (prop), YSI_gscProp2, hashid),
-		ptr = getproperty(0, prop),
-		deleteproperty(0, prop);
+		ptr = GetSVarInt(prop),
+		DeleteSVar(prop);
 	}
 	case 2:
 	{
@@ -136,11 +136,11 @@ public _YSI_BCryptHashDone(hashid, arg2, arg3)
 			prop[16];
 		_YSI_gLastHash = arg2,
 		format(prop, sizeof (prop), YSI_gscProp1, hashid),
-		extra = getproperty(0, prop),
-		deleteproperty(0, prop),
+		extra = GetSVarInt(prop),
+		DeleteSVar(prop),
 		format(prop, sizeof (prop), YSI_gscProp2, hashid),
-		ptr = getproperty(0, prop),
-		deleteproperty(0, prop);
+		ptr = GetSVarInt(prop),
+		DeleteSVar(prop);
 	}
 	case 3:
 	{
@@ -150,9 +150,9 @@ public _YSI_BCryptHashDone(hashid, arg2, arg3)
 			new
 				prop[16];
 			format(prop, sizeof (prop), YSI_gscProp1, hashid),
-			deleteproperty(0, prop),
+			DeleteSVar(prop),
 			format(prop, sizeof (prop), YSI_gscProp2, hashid),
-			deleteproperty(0, prop),
+			DeleteSVar(prop),
 			BCrypt_SetPlugin(BCRYPT_PLUGIN_VERSION_SREYAS_3);
 		}
 		ptr = arg2;
@@ -223,9 +223,9 @@ stock _BCrypt_Hash(extra, ptr, const password[], cost)
 			new
 				prop[16];
 			format(prop, sizeof (prop), YSI_gscProp1, _YSI_gHashID),
-			setproperty(0, prop, extra),
+			SetSVarInt(prop, extra),
 			format(prop, sizeof (prop), YSI_gscProp2, _YSI_gHashID),
-			setproperty(0, prop, ptr);
+			SetSVarInt(prop, ptr);
 			return _YSI_gHashID;
 		}
 	}
@@ -236,9 +236,9 @@ stock _BCrypt_Hash(extra, ptr, const password[], cost)
 			new
 				prop[16];
 			format(prop, sizeof (prop), YSI_gscProp1, _YSI_gHashID),
-			setproperty(0, prop, extra),
+			SetSVarInt(prop, extra),
 			format(prop, sizeof (prop), YSI_gscProp2, _YSI_gHashID),
-			setproperty(0, prop, ptr);
+			SetSVarInt(prop, ptr);
 			return _YSI_gHashID;
 		}
 	}
