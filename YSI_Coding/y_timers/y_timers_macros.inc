@@ -114,7 +114,7 @@ Optional plugins:
 #define J@=0,I@=-1,Timer:@Yq:_@yT[%4] J@=(%4),I@=-1,Timer:@Yq:_@yT
 
 // Custom time.
-#define @Yq:%0[%1](%2) I@=Timer:%1,Timer:%0(%2)
+#define @Yq:%0[%1](%2) I@=Timer:(%1),Timer:%0(%2)
 
 #define STOP__%0; {_Timer_F((%0),1);}
 
