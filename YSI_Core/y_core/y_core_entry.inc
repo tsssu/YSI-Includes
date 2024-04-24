@@ -82,8 +82,13 @@ Optional plugins:
 #define YSI_VERSION_MINOR               10
 #define YSI_VERSION_BUILD               0006
 
-stock const YSI_VERSION_BCD = (YSI_VERSION_MAJOR << 24) | (YSI_VERSION_MINOR << 16) | (YSI_VERSION_BUILD);
-//static YSI_version_5_10_0006 = YSI_VERSION_BCD;
+const YSI_VERSION_BCD = (YSI_VERSION_MAJOR << 24) | (YSI_VERSION_MINOR << 16) | (YSI_VERSION_BUILD);
+
+//#pragma deprecated Ignore this warning, it is for help debugging.  YSI v5.10.0006
+//YSI_Version()
+//{
+//	return YSI_VERSION_BCD;
+//}
 
 #define YSI_VERSION                     #YSI_VERSION_MAJOR "." #YSI_VERSION_MINOR "." #YSI_VERSION_BUILD
 

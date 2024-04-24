@@ -1241,6 +1241,8 @@ forward bool:Debug_Enable();
 
 static bool:ScriptInit_CallOnCodeInit(bool:jit, bool:fs)
 {
+	//new compile_time_version_reporting = YSI_Version();
+	//#pragma unused compile_time_version_reporting
 	Debug_Enable();
 	#if defined _DEBUG
 		#if _DEBUG > 0
