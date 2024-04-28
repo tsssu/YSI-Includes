@@ -64,10 +64,10 @@ YCMD:i(playerid, params[], help) = me;
 
 The `@cmd()` decorator can take many named parameters to configure the command behaviour:
 
-* `.disable` - Makes the command unusable by default, until you enable it again with `Command_SetDisabled(id, false);`:
+* `.disabled` - Makes the command unusable by default, until you enable it again with `Command_SetDisabled(id, false);`:
 
 ```pawn
-@cmd(.disable = true) unusable(playerid, params[], help)
+@cmd(.disabled = true) unusable(playerid, params[], help)
 {
 	return 1;
 }
