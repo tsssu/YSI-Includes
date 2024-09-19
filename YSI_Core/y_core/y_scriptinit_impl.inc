@@ -958,32 +958,11 @@ static stock ScriptInit_Dump(const filename[], const message[])
 
 static stock Server_PrintYSIHeader()
 {
-	YSI_Print__("         ==============================================================");
-	YSI_Print__("         |                                                            |");
-	YSI_Print__("         |                                                            |");
-	YSI_Print__("         |    YYYYYYY       YYYYYYY    SSSSSSSSSSSSSSS  IIIIIIIIII    |");
-	YSI_Print__("         |    Y:::::Y       Y:::::Y  SS:::::::::::::::S I::::::::I    |");
-	YSI_Print__("         |    Y:::::Y       Y:::::Y S:::::SSSSSS::::::S I::::::::I    |");
-	YSI_Print__("         |    Y::::::Y     Y::::::Y S:::::S     SSSSSSS II::::::II    |");
-	YSI_Print__("         |    YYY:::::Y   Y:::::YYY S:::::S               I::::I      |");
-	YSI_Print__("         |       Y:::::Y Y:::::Y    S:::::S               I::::I      |");
-	YSI_Print__("         |        Y:::::Y:::::Y      S::::SSSS            I::::I      |");
-	YSI_Print__("         |         Y:::::::::Y        SS::::::SSSSS       I::::I      |");
-	YSI_Print__("         |          Y:::::::Y           SSS::::::::SS     I::::I      |");
-	YSI_Print__("         |           Y:::::Y               SSSSSS::::S    I::::I      |");
-	YSI_Print__("         |           Y:::::Y                    S:::::S   I::::I      |");
-	YSI_Print__("         |           Y:::::Y                    S:::::S   I::::I      |");
-	YSI_Print__("         |           Y:::::Y        SSSSSSS     S:::::S II::::::II    |");
-	YSI_Print__("         |        YYYY:::::YYYY     S::::::SSSSSS:::::S I::::::::I    |");
-	YSI_Print__("         |        Y:::::::::::Y     S:::::::::::::::SS  I::::::::I    |");
-	YSI_Print__("         |        YYYYYYYYYYYYY      SSSSSSSSSSSSSSS    IIIIIIIIII    |");
-	YSI_Print__("         |                                                            |");
-	YSI_Print__("         |                                                            |");
-	YSI_Print__("         |                      (c) 2021 MPL v1.1                     |");
-	YSI_Print__("         |            Alex \"Y_Less\" Cole and contributors.            |");
-	YSI_Print__("         |                                                            |");
-	YSI_Print__("         |                                                            |");
-	YSI_Print__("         ==============================================================");
+	YSI_Print__(" ========================================== ");
+	YSI_Print__(" |                 YSI 5.x                | ");
+	YSI_Print__(" |            (c) 2021 MPL v1.1           | ");
+	YSI_Print__(" |  Alex \"Y_Less\" Cole and contributors.  | ");
+	YSI_Print__(" ========================================== ");
 }
 
 /*-------------------------------------------------------------------------*//**
@@ -1003,8 +982,6 @@ stock Server_PrintIntroMessage(...)
 			YSI_Print__(YSI_SPACE),
 			YSI_Print__(YSI_SPACE),
 			Server_PrintYSIHeader(),
-			YSI_Print__(YSI_SPACE),
-			YSI_Print__(YSI_SPACE),
 			YSI_Print__(YSI_gscHeader),
 			YSI_gsObnoxiousHeader = false,
 			YSI_gsFirstHeader = false;
@@ -1321,7 +1298,7 @@ static bool:ScriptInit_CallOnCodeInit(bool:jit, bool:fs)
 					{
 						Server_PrintIntroPart(
 							"  Generating code, this may take a",
-							" little bit of time.  Note that this",
+							" little bit of time. Note that this",
 							" code generation works best with the",
 							"    JIT plugin, which you are not",
 							"    currently using.  Get it here:",

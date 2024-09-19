@@ -715,7 +715,9 @@ static stock YVers_PrintHeader()
 			YSI_gLockData[1] = (YSI_gLockData[2] - YSI_gLockData[3]) / 2 + YSI_gLockData[3];
 		#endif
 		#if __debug > 0
+			#if !defined YSI_NO_SERVER_INFO
 			YVers_PrintHeader();
+			#endif
 			#if _YSI_SAFE_STARTUP
 				Server_PrintIntroMessage(
 					"Unable to check the latest YSI version",
@@ -747,7 +749,9 @@ stock YVers_StartCheck()
 		YSI_gLockData[1] = YSI_gLockData[0] + 7;
 	#endif
 	#if __debug > 0
+		#if !defined YSI_NO_SERVER_INFO
 		YVers_PrintHeader();
+		#endif
 	#endif
 	//YSI_Print__(" |                                      | ");
 	//YSI_Print__(" |  Checking the latest YSI version..   | ");
