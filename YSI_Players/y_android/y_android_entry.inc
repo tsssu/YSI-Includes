@@ -94,7 +94,7 @@ static stock
 	YSI_g_sTimers[MAX_PLAYERS],
 	bool:YSI_g_sIsAndroid[MAX_PLAYERS] = {bool:-1, ...};
 
-forward OnAndroidCheck(playerid, bool:isDisgustingThiefToBeBanned);
+forward OnAndroidCheck(playerid, bool:success);
 
 stock bool:IsPCPlayer(playerid)
 {

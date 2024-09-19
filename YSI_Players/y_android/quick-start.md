@@ -3,13 +3,14 @@
 Detects when a player is using the illegal Android client:
 
 ```pawn
+#include <YSI_Server\y_colors>
 #include <YSI_Players\y_android>
 
-public OnAndroidCheck(playerid, bool:isDisgustingThiefToBeBanned)
+public OnAndroidCheck(playerid, bool:success)
 {
-	if (isDisgustingThiefToBeBanned)
+	if (success)
 	{
-		Ban(playerid);
+		SendClientMessage(playerid, X11_WHITE, "The player is on mobile client!");
 	}
 }
 ```
