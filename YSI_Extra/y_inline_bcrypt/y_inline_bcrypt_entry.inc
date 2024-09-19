@@ -105,7 +105,7 @@ public _Inline_BCryptHashDone(Func:cb<si>, arg2)
 	if (numargs() == 2)
 	{
 		// Secret internal hash ID.
-		_YSI_BCryptGetHashB(arg2, hash, sizeof (hash));
+		_YSI_BCryptGetHashB(hash, sizeof (hash));
 	}
 	else if (BCrypt_GetPlugin() == BCRYPT_PLUGIN_VERSION_LASSIR)
 	{
@@ -114,7 +114,7 @@ public _Inline_BCryptHashDone(Func:cb<si>, arg2)
 	else
 	{
 		// Can't be called if there's no valid plugin found.  So this is safe.
-		_YSI_BCryptGetHashE(hash, sizeof (hash));
+		_YSI_BCryptGetHashB(hash, sizeof (hash));
 	}
 	if (Indirect_GetTag(cb) == _:tagof (F@_@si:))
 	{
@@ -133,7 +133,7 @@ stock bool:BCrypt_CheckInline(const password[], const hash[], Func:cb<i>)
 	{
 	case BCRYPT_PLUGIN_VERSION_LASSIR:
 		return _YSI_BCryptCheckA(password, hash, YSI_gsc_Inline_BCryptCheckDone, YSI_gcII, _:cb, -1);
-	case BCRYPT_PLUGIN_VERSION_SREYAS_1, BCRYPT_PLUGIN_VERSION_SREYAS_2, BCRYPT_PLUGIN_VERSION_SREYAS_3, BCRYPT_PLUGIN_VERSION_SREYAS_4:
+	case BCRYPT_PLUGIN_VERSION_SREYAS:
 		return _YSI_BCryptCheckB(_:cb, YSI_gsc_Inline_BCryptCheckDone, password, hash);
 	default:
 		return false;
@@ -149,8 +149,8 @@ stock BCrypt_HashInline(const password[], cost = 12, {F@_@s, F@_@si}:cb, tag = t
 	{
 	case BCRYPT_PLUGIN_VERSION_LASSIR:
 		return _YSI_BCryptHashA(password, cost, YSI_gsc_Inline_BCryptHashDone, YSI_gcI, _:cb) ? _YSI_gHashID : 0;
-	case BCRYPT_PLUGIN_VERSION_SREYAS_1, BCRYPT_PLUGIN_VERSION_SREYAS_2, BCRYPT_PLUGIN_VERSION_SREYAS_3, BCRYPT_PLUGIN_VERSION_SREYAS_4:
-		return _YSI_BCryptHashB(_:cb, YSI_gsc_Inline_BCryptHashDone, password, cost) ? _YSI_gHashID : 0;
+	case BCRYPT_PLUGIN_VERSION_SREYAS:
+		return _YSI_BCryptHashB(_:cb, YSI_gsc_Inline_BCryptHashDone, password, cost, "") ? _YSI_gHashID : 0;
 	default:
 		return 0;
 	}
